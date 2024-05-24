@@ -377,7 +377,7 @@ toggleEnabled(arg) {
     }
 }
 
-; #### HOTKEY BOOTSTRAP #####
+; #### RAINMETER BOOTSTRAP #####
 
 if (ENABLE_RAINMETER) {
     setRainmeterText("Tribes 3 Overlay", "Start Tribes", "Select a Loadout")
