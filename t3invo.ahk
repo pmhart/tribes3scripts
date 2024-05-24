@@ -7,7 +7,7 @@
 KEY_CHANGE_LOADOUT := "c"
 
 ; # SET SCREEN SIZE (1080, 1440)
-SCREEN_SIZE := 1080
+SCREEN_SIZE := 1440
 ; SCREEN_SIZE := 1440
 
 ; # KEY BINDING TO ENABLE OR DISABLE SCRIPT
@@ -19,7 +19,15 @@ NOTIFY_ENABLED := true
 ; # SHOW TOAST WHEN INVENTORY IS APPLIED VIA HOTKEY?
 NOTIFY_INVENTORY := true 
 
+; # SET THIS PATH IF YOU HAVE "Rainmeter" Installed
+PATH_RAINMETER := ""
+; PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
+PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
+PATH_RAINMETER_INI := "illustro\Tribes"
+
 ; # INVENTORY LOADOUT HOTKEYS
+;
+;   HotKey = Keyboard Key (make sure not already bound in game, try "F1" ...)
 ;
 ;   Loadout = [class, w1, w2, w3, belt, pack]
 ;
@@ -36,13 +44,13 @@ NOTIFY_INVENTORY := true
 ;
 
 INVENTORY := Map(
-    "2", [
+    "F1", [
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "thrust"],
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "blink"],
     ],
     "3", [
-        ["sentinel", "spinfusor", "chain", "shotgun", "impact", "thrust"],
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "blink"],
+        ["sentinel", "spinfusor", "chain", "shotgun", "impact", "thrust"],
     ],
     "4", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
     "5", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
@@ -64,6 +72,7 @@ KEY_WEAPON_2 := "o"
 
 
 ; ##### DEFINITIONS #####
+
 
 SCREEN_RESOLUTION_MAP := Map(
     ; 1920 x 1080
@@ -184,9 +193,9 @@ CLASS_MAP := Map(
 LAYOUT := SCREEN_RESOLUTION_MAP[SCREEN_SIZE]
 
 STATE := {
-	enabled: true,
-	weapon: 1,
-	toggleId: -1,
+    enabled: true,
+    weapon: 1,
+    toggleId: -1,
     toggleIndex: 1,
     tip: "",
 }
@@ -194,16 +203,42 @@ STATE := {
 ; ##### FUNCTIONS ##### 
 
 hideToast() {
-    global STATE
-
+    global STATE, PATH_RAINMETER
     if (STATE.tip != "") {
         ToolTip("")
         STATE.tip := ""
     }
 }
 
+setRainmeterText(title, weapons, items) {
+    template := FileRead("rainmeterTemplate.ini")
+    template := StrReplace(template, "REPLACE_SKIN_PATH", PATH_RAINMETER_SKINS)
+    template := StrReplace(template, "REPLACE_TITLE", title)
+    template := StrReplace(template, "REPLACE_WEAPONS", weapons)
+    template := StrReplace(template, "REPLACE_ITEMS", items)
+    
+    file := FileOpen(PATH_RAINMETER_SKINS "\" PATH_RAINMETER_INI "\toast.ini", "w")
+    file.Write(template)
+    file.Close()
+}
+
+updateRainmeter(active) {
+    global PATH_RAINMETER, PATH_RAINMETER_INI, PATH_RAINMETER_SKINS
+
+    if (PATH_RAINMETER == "") {
+        return
+    }
+
+    title := StrUpper(active[1])
+    weapons := active[2] ", " active[3] ", " active[4] 
+    items := active[5] ", " active[6]
+
+    setRainmeterText(title, weapons, items)
+    Run(PATH_RAINMETER " !RefreshApp")
+}
+
 toast(msg) {
-    global STATE, LAYOUT
+    global STATE, LAYOUT, PATH_RAINMETER    
 
     if (STATE.tip != "") {
         SetTimer(hideToast, 0)
@@ -212,7 +247,6 @@ toast(msg) {
 
     STATE.tip := msg
     ToolTip(msg, LAYOUT.center.x, LAYOUT.center.y)
-
     SetTimer(hideToast, -2000)
 }
 
@@ -243,7 +277,7 @@ toggleWeapon(arg) {
 }
 
 toggledLoadout(pressedKey) {
-    global STATE, INVENTORY, CLASS_MAP, WEAPON_MAP, KEY_CHANGE_LOADOUT, LAYOUT, NOTIFY_INVENTORY
+    global STATE, INVENTORY, CLASS_MAP, WEAPON_MAP, KEY_CHANGE_LOADOUT, LAYOUT, NOTIFY_INVENTORY, PATH_RAINMETER
 
     loadouts := INVENTORY[pressedKey]
 	if (!loadouts) {
@@ -266,6 +300,12 @@ toggledLoadout(pressedKey) {
     if(!active) {
         return
     }
+
+    
+    ; if (true) {
+    ;     updateRainmeter(active)
+    ;     return
+    ; }
 
     ; update state
     STATE.toggleId := pressedKey
@@ -310,11 +350,10 @@ toggledLoadout(pressedKey) {
     Click LAYOUT.submit.x, LAYOUT.submit.y
 
     ; notify
-    
-    if (NOTIFY_INVENTORY) {
-        invo := active.Clone()
-        invo.RemoveAt(1)
-        toast(StrUpper(active[1]) "`n" active[2] ", " active[3] ", " active[4] "`n" active[5] ", " active[6])
+    if (PATH_RAINMETER != "") {
+        updateRainmeter(active)
+    } else if (NOTIFY_INVENTORY) {
+        toast(StrUpper(className) "`n" active[2] ", " active[3] ", " active[4] "`n" active[5] ", " active[6])
     }
 }
 
@@ -336,9 +375,15 @@ toggleEnabled(arg) {
 
     if (NOTIFY_ENABLED) {
         enableText := STATE.enabled ? "Enabled" : "Disabled"
-        msg := "Tribes 3 Script " enableText
-        toast(msg)
+        toast("Tribes 3 Script: " enableText)
     }
+}
+
+; #### HOTKEY BOOTSTRAP #####
+
+if (PATH_RAINMETER != "") {
+    setRainmeterText("Tribes 3 Overlay", "Start Tribes", "Select a Loadout")
+    Run(PATH_RAINMETER " !ToggleConfig `"" PATH_RAINMETER_INI "`" `"toast.ini`"")
 }
 
 ; ##### HOTKEY BOOTSTRAP #####
