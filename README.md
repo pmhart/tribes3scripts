@@ -96,9 +96,9 @@ INVENTORY := Map(
 - If using the weapon swap feature, be aware that changing loadouts manually may require resetting the script state.
 - If you are not seeing loadouts change it's probably a `SCREEN_SIZE` issue, make sure you set it to your monitor size. If need be adjust the `SCREEN_RESOLUTION_MAP`.
 
-## Thanks!
+## Shoutout
 
 - This script was based on an earlier `.ahk` script being shared in the Tribes 3 community. 
-- Shoutout to "JimChrist" and those who provided the original layout / clicking concept used in this script.
+- "JimChrist", "Sek" and those who provided the original layout / clicking concept used in this script.
 - "Mexico" for pushing me to add the Rainmeter HUD and helping test
 - "Filo" for helping test
