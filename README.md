@@ -1,4 +1,4 @@
-# Tribes Loadout Manager
+# Tribes 3 Loadout Manager
 
 This script is designed to manage loadouts for the game "Tribes". It allows you to quickly switch between different loadouts using hotkeys. 
 
@@ -74,10 +74,10 @@ INVENTORY := Map(
 
 ### Weapon Swap (Experimental)
 
-- `ENABLE_WEAPON_SWAP`: Enable or disable weapon swap functionality..
-- `KEY_WEAPON_SWAP`: The key to swap between two weapons. Default is `q`.
-- `KEY_WEAPON_1`: The key binding for the first weapon. Default is `p`.
-- `KEY_WEAPON_2`: The key binding for the second weapon. Default is `o`.
+- `ENABLE_WEAPON_SWAP`: Enable or disable weapon swap functionality.
+- `KEY_WEAPON_SWAP`: The key to swap between two weapons.
+- `KEY_WEAPON_1`: The key binding for the first weapon.
+- `KEY_WEAPON_2`: The key binding for the second weapon.
 
 ## Usage
 
