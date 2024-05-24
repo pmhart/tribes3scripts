@@ -305,12 +305,6 @@ toggledLoadout(pressedKey) {
         return
     }
 
-    
-    ; if (true) {
-    ;     updateRainmeter(active)
-    ;     return
-    ; }
-
     ; update state
     STATE.toggleId := pressedKey
     STATE.toggleIndex := toggleIndex
