@@ -14,57 +14,38 @@ KEY_ENABLED := "^k"
 
 ; INVENTORY LOADOUT HOTKEYS
 ;
-; 	{
-; 		key: "{ENTER KEYBOARD KEY HERE, CAN INCLUDE ^ for ctrl etc}",
-; 		loadouts: [
-; 			[weightKey, sideKey, [w1, w2, w3, belt, pack]]
-;			// ... add more here so pressing the same key cycles if you would like
-; 		]
-; 	}
+; 	Array<{
+;       key: keyboard key that toggles loadouts (can be combined keys, for example control+k would be "^k")
+;       loadouts = Array<[class, w1, w2, w3, belt, pack]>
+; 	}>
 ;
-INVENTORY := [
-	{
-		key: "2",
-		loadouts: [
-			["light", "offense", ["spinfusor", "chain", "shotgun", "explosive", "thrust"]],
-			["light", "offense", ["spinfusor", "chain", "shotgun", "explosive", "blink"]],
-		]
-	},
-	{
-		key: "3",
-		loadouts: [
-			["light", "defense", ["spinfusor", "chain", "shotgun", "impact", "thrust"]],
-			["light", "defense", ["spinfusor", "chain", "shotgun", "impact", "blink"]],
-		]
-	},
-	{
-		key: "4",
-		loadouts: [
-			["medium", "offense", ["spinfusor", "chain", "shotgun", "ap", "shield"]]
-		]
-	},
-	{
-		key: "5",
-		loadouts: [
-			["medium", "defense", ["spinfusor", "chain", "shotgun", "ap", "turret"]]
-		]
-	},
-	{
-		key: "6",
-		loadouts: [
-			["heavy", "offense", ["spinfusor", "mortar", "shotgun", "disc", "shield"]]
-		],
-	},
-	{
-		key: "7",
-		loadouts: [
-			["heavy", "defense", ["spinfusor", "chain", "shotgun", "disc", "forcefield"]]
-		],
-	},
-]
+;   loadouts syntax: [class, w1, w2, w3, belt, pack]
+;
+;       class: "pathfinder", "sentinel", "raider", "technician", "doombringer", "juggernaut"
+;       w1: "spinfusor", "bolt", "thumper", "plasma"
+;       w2: "chain", "phase", "grenade", "nova", "mortar", "gladiator", "plasma"
+;       w3: "sparrow", "shotgun", "nova", "shocklance"
+;       belt: "explosive", "chaff", "smoke", "impact", "sticky", "ap", "frag", "disc", "mine"
+;       pack: "blink", "thrust", "stealth", "turret", "shield", "phase", "dome", "regen", "forcefield"
+;
 
-; weapon swap: switch between two weapons
-ENABLE_WEAPON_SWAP := true
+INVENTORY := Map(
+    "2", [
+        ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "thrust"],
+        ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "blink"],
+    ],
+    "3", [
+        ["sentinel", "spinfusor", "chain", "shotgun", "impact", "thrust"],
+        ["sentinel", "spinfusor", "chain", "shotgun", "impact", "blink"],
+    ],
+    "4", [["raider", "spinfusor", "chain", "shotgun", "ap", "shield"]],
+    "5", [["technician", "spinfusor", "chain", "shotgun", "ap", "turret"]],
+    "6", [["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"]],
+    "7", [["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"]],
+)
+
+; ! EXPERIMENTAL: weapon swap: switch between two weapons
+ENABLE_WEAPON_SWAP := false
 ; 	Note! use key bindings you don't normally press to allow the swap button to be all you need
 KEY_WEAPON_SWAP := "q"
 ; 	Note! if you changed loadout without using this script or press one of the weapon keys directly, it 
@@ -76,98 +57,115 @@ KEY_WEAPON_2 := "o"
 ; # ends config editing area!
 
 
-; ##### DEFS #####
+; ##### DEFINITIONS #####
 
-RESOLUTION := Map(
+SCREEN_RESOLUTION_MAP := Map(
     1080, {
-        classx: 150,
-        classy: [200, 285, 370, 450, 535, 620],
-
-        weaponx: [700, 900, 1100, 1300],
-        weapon1y: 320,
-        weapon2y: 480,
-        weapon3y: 640,
-
-        beltx: [660, 800, 920],
-        belty: 800,
-
-        packx: [1090, 1230, 1360],
-        packy: 800,
-
-        selectx: 875,
-        selecty: 950
+        loadout: {
+            x: 150,
+            y: [200, 285, 370, 450, 535, 620],
+        },
+        weapon: {
+            x: [700, 900, 1100, 1300],
+            y: [320, 480, 640],
+        },
+        belt: {
+            x: [660, 800, 920],
+            y: 800,
+        },
+        pack: {
+            x: [1090, 1230, 1360],
+            y: 800,
+        },
+        submit: {
+            x: 875,
+            y: 950,
+        }
     },
     1440, {
-        classx: 200,
-        classy: [260, 380, 490, 600, 715, 825],
-
-        weaponx: [930, 1200, 1480, 1770],
-        weapon1y: 440,
-        weapon2y: 650,
-        weapon3y: 850,
-
-        beltx: [875, 1050, 1240],
-        belty: 1050,
-
-        packx: [1450, 1650, 1800],
-        packy: 1050,
-
-        selectx: 1160,
-        selecty: 1275
+        loadout: {
+            x: 200,
+            y: [260, 380, 490, 600, 715, 825],
+        },
+        weapon: {
+            x: [930, 1200, 1480, 1770],
+            y: [440, 650, 850],
+        },
+        belt: {
+            x: [875, 1050, 1240],
+            y: 1050,
+        },
+        pack: {
+            x: [1450, 1650, 1800],
+            y: 1050,
+        },
+        submit: {
+            x: 1160,
+            y: 1275,
+        }
     },
 )
 
-LOADOUT := Map(
-    "light", Map(
-        "weapon1", ["spinfusor", "bolt"],
-        "weapon2", ["chain", "phase"],
-        "weapon3", ["sparrow", "shotgun", "shocklance"],
-        "offense", {
-            id: 1,
-            belt: ["explosive", "chaff", "smoke"],
-            pack: ["blink", "thrust", "stealth"],
-        },
-        "defense", {
-            id: 2,
-            belt: ["impact", "explosive", "smoke"],
-            pack: ["blink", "thrust", "stealth"],
-        },
-    ),
-    "medium", Map(
-        "weapon1", ["spinfusor", "thumper", "plasma"],
-        "weapon2", ["chain", "grenade", "nova"],
-        "weapon3", ["sparrow", "shotgun", "shocklance"],
-        "offense", {
-            id: 3,
-            belt: ["sticky", "ap"],
-            pack: ["shield", "phase"],
-        },
-        "defense", {
-            id: 4,
-            belt: ["emp", "ap"],
-            pack: ["turret", "shield", "phase"],
-        },
-    ),
-    "heavy", Map(
-        "weapon1", ["spinfusor", "bolt"],
-        "weapon2", ["chain", "mortar", "gladiator", "plasma"],
-        "weapon3", ["sparrow", "shotgun", "nova", "shocklance"],
-        "offense", {
-            id: 5,
-            belt: ["frag", "disc"],
-            pack: ["shield", "regen"],
-        },
-        "defense", {
-            id: 6,
-            belt: ["mine", "disc"],
-            pack: ["dome", "regen", "forcefield"],
-        },
-    )
+WEAPON_MAP := {
+    light: {
+        1: ["spinfusor", "bolt"],
+        2: ["chain", "phase"],
+        3: ["sparrow", "shotgun", "shocklance"]
+    },
+    medium: {
+        1: ["spinfusor", "thumper", "plasma"],
+        2: ["chain", "grenade", "nova"],
+        3: ["sparrow", "shotgun", "shocklance"]
+    },
+    heavy: {
+        1: ["spinfusor", "bolt"],
+        2: ["chain", "mortar", "gladiator", "plasma"],
+        3: ["sparrow", "shotgun", "nova", "shocklance"]
+    },
+}
+
+CLASS_MAP := Map(
+    "pathfinder", {
+        index: 1,
+        weapons: WEAPON_MAP.light,
+        belt: ["explosive", "chaff", "smoke"],
+        pack: ["blink", "thrust", "stealth"],
+    },
+    "sentinel", {
+        index: 2,
+        weapons: WEAPON_MAP.light,
+        belt: ["impact", "explosive", "smoke"],
+        pack: ["blink", "thrust", "stealth"],
+    },
+    "raider", {
+        index: 3,
+        weapons: WEAPON_MAP.medium,
+        belt: ["sticky", "ap"],
+        pack: ["shield", "phase"],
+    },
+    "technician", {
+        index: 4,
+        weapons: WEAPON_MAP.medium,
+        belt: ["emp", "ap"],
+        pack: ["turret", "shield", "phase"],
+    },
+    "doombringer", {
+        index: 5,
+        weapons: WEAPON_MAP.heavy,
+        belt: ["frag", "disc"],
+        pack: ["shield", "regen"],
+    },
+    "juggernaut", {
+        index: 6,
+        weapons: WEAPON_MAP.heavy,
+        belt: ["mine", "disc"],
+        pack: ["dome", "regen", "forcefield"],
+    }
 )
 
 ; ##### STATE ##### 
 
-LAYOUT := RESOLUTION[SCREEN_SIZE]
+LAYOUT := SCREEN_RESOLUTION_MAP[SCREEN_SIZE]
 
 STATE := {
 	enabled: true,
@@ -187,66 +185,74 @@ indexOf(arr, value) {
     return 1
 }
 
-configForHotkey(key) {
-    global INVENTORY
-	for index, element in INVENTORY {
-        if (element.key = key) {
-            return element
-        }
-    }
-}
-
 toggleWeapon(arg) {
 	global STATE, KEY_WEAPON_, KEY_WEAPON_2
 	STATE.weapon := STATE.weapon == 1 ? 2 : 1
 	Send(STATE.weapon == 1 ? KEY_WEAPON_1 : KEY_WEAPON_2)
 }
 
-toggledLoadout(key) {
-    global STATE, INVENTORY, LOADOUT, KEY_CHANGE_LOADOUT, LAYOUT
+toggledLoadout(pressedKey) {
+    global STATE, INVENTORY, CLASS_MAP, WEAPON_MAP, KEY_CHANGE_LOADOUT, LAYOUT
 
-	config := configForHotkey(key)
-	if (!config) {
+    loadouts := INVENTORY[pressedKey]
+	if (!loadouts) {
 		return
 	}
 
-	toggleId := config.key
-	loadouts := config.loadouts
-	hasMultiple := loadouts.length > 1
-
-    if (STATE.toggleId == toggleId and hasMultiple) {
-        STATE.toggleIndex := STATE.toggleIndex + 1 
-    } else {
-        STATE.toggleIndex := 1
+    ; determine toggleIndex
+    toggleIndex := 1
+    if (STATE.toggleId == pressedKey and loadouts.Length > 1) {
+        nextIndex := STATE.toggleIndex + 1 
+        toggleIndex := nextIndex > loadouts.Length ? 1 : nextIndex
     }
 
-	STATE.weapon := 1
-    STATE.toggleId := toggleId
-    if (STATE.toggleIndex > loadouts.Length) {
-        STATE.toggleIndex := 1
-    }  
-
+    ; get active setup for toggleIndex
     active := loadouts[STATE.toggleIndex]
-    weight := LOADOUT[active[1]]
-    side := weight[active[2]]
-	selections := active[3]
+    if(!active) {
+        return
+    }
 
-	; indexes that lead to x positions of selections
-    w1 := indexOf(weight["weapon1"], selections[1])
-    w2 := indexOf(weight["weapon2"], selections[2])
-    w3 := indexOf(weight["weapon3"], selections[3])
-    belt := indexOf(side.belt, selections[4])
-    pack := indexOf(side.pack, selections[5])
+    ; update state
+    STATE.toggleId := pressedKey
+    STATE.toggleIndex := toggleIndex
+	STATE.weapon := 1
 
-	Send KEY_CHANGE_LOADOUT
+    ; show change class menu
+    Send KEY_CHANGE_LOADOUT
     Sleep 100
-    Click LAYOUT.classx, LAYOUT.classy[side.id]
-    Click LAYOUT.weaponx[w1], LAYOUT.weapon1y
-    Click LAYOUT.weaponx[w2], LAYOUT.weapon2y
-    Click LAYOUT.weaponx[w3], LAYOUT.weapon3y
-    Click LAYOUT.beltx[belt], LAYOUT.belty
-    Click LAYOUT.packx[pack], LAYOUT.packy
-    Click LAYOUT.selectx, LAYOUT.selecty
+
+    ; keys & class info for the loadout to be applied
+    className := active[1]
+    classIndex := CLASS_MAP[className].index
+    weapons := CLASS_MAP[className].weapons
+    belt := CLASS_MAP[className].belt
+    pack := CLASS_MAP[className].pack
+
+    ; select class
+    Click LAYOUT.loadout.x, LAYOUT.loadout.y[classIndex]
+
+    ; select first weapon
+    indexW1x := indexOf(weapons.1, active[2])
+    Click LAYOUT.weapon.x[indexW1x], LAYOUT.weapon.y[1]
+
+    ; select second weapon
+    indexW2x := indexOf(weapons.2, active[3])
+    Click LAYOUT.weapon.x[indexW2x], LAYOUT.weapon.y[2]
+    
+    ; select third weapon
+    indexW3x := indexOf(weapons.3, active[4])
+    Click LAYOUT.weapon.x[indexW3x], LAYOUT.weapon.y[3]
+    
+    ; select belt
+    indexBeltx := indexOf(belt, active[5])
+    Click LAYOUT.belt.x[indexBeltx], LAYOUT.belt.y
+    
+    ; select pack
+    indexPackx := indexOf(pack, active[6])
+    Click LAYOUT.pack.x[indexPackx], LAYOUT.pack.y
+
+    ; click to apply changes
+    Click LAYOUT.submit.x, LAYOUT.submit.y
 }
 
 toggleEnabled(arg) {
@@ -257,8 +263,8 @@ toggleEnabled(arg) {
 	STATE.toggleId := -1
 	STATE.toggleIndex := 1
 	
-	for index, value in INVENTORY {
-		Hotkey(value.key, STATE.enabled ? "On" : "Off")
+	for key in INVENTORY {
+		Hotkey(key, STATE.enabled ? "On" : "Off")
 	}
 
 	if (ENABLE_WEAPON_SWAP) {
@@ -269,8 +275,8 @@ toggleEnabled(arg) {
 ; ##### HOTKEY BOOTSTRAP #####
 
 ; invo bindings
-for index, value in INVENTORY {
-	Hotkey(value.key, (arg) => toggledLoadout(arg))
+for key in INVENTORY {
+	Hotkey(key, (arg) => toggledLoadout(arg))
 }
 
 ; weapon swap
