@@ -99,6 +99,6 @@ INVENTORY := Map(
 ## Thanks!
 
 - This script was based on an earlier `.ahk` script being shared in the Tribes 3 community. 
-= Shoutout to "JimChrist" and those who provided the original layout / clicking concept used in this script.
+- Shoutout to "JimChrist" and those who provided the original layout / clicking concept used in this script.
 - "Mexico" for pushing me to add the Rainmeter HUD and helping test
 - "Filo" for helping test
