@@ -4,10 +4,10 @@
 ; ##### CONFIG AREA (EDIT ME) #####
 
 ; # SET CHANGE INVO KEY
-KEY_CHANGE_LOADOUT := "c"
+KEY_CHANGE_LOADOUT := "k"
 
 ; # SET SCREEN SIZE (1080, 1440)
-SCREEN_SIZE := 1440
+SCREEN_SIZE := 1080
 ; SCREEN_SIZE := 1440
 
 ; # KEY BINDING TO ENABLE OR DISABLE SCRIPT
@@ -19,7 +19,7 @@ NOTIFY_ENABLED := true
 ; # SHOW TOAST WHEN INVENTORY IS APPLIED VIA HOTKEY?
 NOTIFY_INVENTORY := true 
 
-; # ENABLE Rainmaster HUD?
+; # ENABLE Rainmeter HUD?
 ENABLE_RAINMETER := true
 
 ; # Rainmeter default install location, modify if yours is different
@@ -48,18 +48,18 @@ if not FileExist(PATH_RAINMETER)
 ;
 
 INVENTORY := Map(
-    "2", [
+    "F1", [
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "thrust"],
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "blink"],
     ],
-    "3", [
+    "F2", [
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "blink"],
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "thrust"],
     ],
-    "4", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
-    "5", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
-    "6", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
-    "7", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
+    "F3", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
+    "F4", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
+    "F5", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
+    "F6", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
 ; # EXPERIMENTAL! weapon swap: switch between two weapons
