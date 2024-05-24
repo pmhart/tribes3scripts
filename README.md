@@ -16,7 +16,7 @@ This script is designed to manage loadouts for the game "Tribes". It allows you 
 - Loadout hotkeys can cycle between multiple loadouts (blink, thrust etc.)
 - Rainmeter HUD that provides status of current loadout.
 - Enable or disable the script with a hotkey.
-- Toggle between two weapons with he same key (Experimental)
+- Toggle between two weapons with he same key (experimental!)
 
 ## Configuration
 
@@ -55,7 +55,7 @@ Inventory = {
 ```
 
 Example:
-\`\`\`ahk
+```
 INVENTORY := Map(
     "F1", [
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "thrust"],
@@ -70,11 +70,11 @@ INVENTORY := Map(
     "F5", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
     "F6", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
-\`\`\`
+```
 
 ### Weapon Swap (Experimental)
 
-- `ENABLE_WEAPON_SWAP`: Enable or disable weapon swap functionality. Default is `false`.
+- `ENABLE_WEAPON_SWAP`: Enable or disable weapon swap functionality..
 - `KEY_WEAPON_SWAP`: The key to swap between two weapons. Default is `q`.
 - `KEY_WEAPON_1`: The key binding for the first weapon. Default is `p`.
 - `KEY_WEAPON_2`: The key binding for the second weapon. Default is `o`.
@@ -84,7 +84,7 @@ INVENTORY := Map(
 1. Install AutoHotkey v2.0 or later.
 2. Download `t3invo.ahk` from this repo.
 3. Optional Rainmeter HUD:
-    - make to also download `rainmeterTemplate.ini` and put it in same folder as `t3invo.ahk`
+    - Download `rainmeterTemplate.ini` and put it in same folder as `t3invo.ahk`.
     - Close Rainmeter before starting the `.ahk` script.
 4. Run the script using AutoHotkey.
 5. Open Tribes 3 and jump into a game.
@@ -93,8 +93,8 @@ INVENTORY := Map(
 ## Notes
 
 - Ensure the hotkeys you define are not already bound in-game.
-- If using the weapon swap feature, be aware that changing loadouts manually may require resetting the script state.
-- If you are not seeing loadouts change it's probably a `SCREEN_SIZE` issue, make sure you set it to your monitor size. If need be adjust the `SCREEN_RESOLUTION_MAP`.
+- If using the weapon swap feature, be aware that changing loadouts manually may require hitting the change weapon button twice to get `STATE` back in sync.
+- If you are not seeing loadouts change it's probably a `SCREEN_SIZE` issue. Make sure you set it to your monitor size. If need be adjust the `SCREEN_RESOLUTION_MAP` manually.
 
 ## Shoutouts & Thanks!
 
