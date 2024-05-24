@@ -10,10 +10,16 @@ KEY_CHANGE_LOADOUT := "c"
 SCREEN_SIZE := 1080
 ; SCREEN_SIZE := 1440
 
-; # ENABLE OR DISABLE SCRIPT
+; # KEY BINDING TO ENABLE OR DISABLE SCRIPT
 KEY_ENABLED := "^k"
 
-; INVENTORY LOADOUT HOTKEYS
+; # SHOW TOAST WHEN SCRIPT IS TURNED ON AND OFF?
+NOTIFY_ENABLED := true
+
+; # SHOW TOAST WHEN INVENTORY IS APPLIED VIA HOTKEY?
+NOTIFY_INVENTORY := true 
+
+; # INVENTORY LOADOUT HOTKEYS
 ;
 ;   Loadout = [class, w1, w2, w3, belt, pack]
 ;
@@ -44,7 +50,7 @@ INVENTORY := Map(
     "7", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
-; ! EXPERIMENTAL: weapon swap: switch between two weapons
+; # EXPERIMENTAL! weapon swap: switch between two weapons
 ENABLE_WEAPON_SWAP := false
 ; 	Note! use key bindings you don't normally press to allow the swap button to be all you need
 KEY_WEAPON_SWAP := "q"
@@ -60,6 +66,7 @@ KEY_WEAPON_2 := "o"
 ; ##### DEFINITIONS #####
 
 SCREEN_RESOLUTION_MAP := Map(
+    ; 1920 x 1080
     1080, {
         loadout: {
             x: 150,
@@ -80,8 +87,13 @@ SCREEN_RESOLUTION_MAP := Map(
         submit: {
             x: 875,
             y: 950,
+        },
+        center: {
+            x: 960,
+            y: 540,
         }
     },
+    ; 2560 x 1440
     1440, {
         loadout: {
             x: 200,
@@ -102,6 +114,10 @@ SCREEN_RESOLUTION_MAP := Map(
         submit: {
             x: 1160,
             y: 1275,
+        },
+        center: {
+            x: 1280,
+            y: 720,
         }
     },
 )
@@ -172,9 +188,33 @@ STATE := {
 	weapon: 1,
 	toggleId: -1,
     toggleIndex: 1,
+    tip: "",
 }
 
 ; ##### FUNCTIONS ##### 
+
+hideToast() {
+    global STATE
+
+    if (STATE.tip != "") {
+        ToolTip("")
+        STATE.tip := ""
+    }
+}
+
+toast(msg) {
+    global STATE, LAYOUT
+
+    if (STATE.tip != "") {
+        SetTimer(hideToast, 0)
+        hideToast()
+    }
+
+    STATE.tip := msg
+    ToolTip(msg, LAYOUT.center.x, LAYOUT.center.y)
+
+    SetTimer(hideToast, -2000)
+}
 
 indexOf(arr, value) {
     for index, element in arr {
@@ -185,6 +225,17 @@ indexOf(arr, value) {
     return 1
 }
 
+stringJoin(arr, delimiter := ", ") {
+    joinedString := ""
+    for index, value in arr {
+        if (index > 1) {
+            joinedString .= delimiter
+        }
+        joinedString .= value
+    }
+    return joinedString
+}
+
 toggleWeapon(arg) {
 	global STATE, KEY_WEAPON_, KEY_WEAPON_2
 	STATE.weapon := STATE.weapon == 1 ? 2 : 1
@@ -192,7 +243,7 @@ toggleWeapon(arg) {
 }
 
 toggledLoadout(pressedKey) {
-    global STATE, INVENTORY, CLASS_MAP, WEAPON_MAP, KEY_CHANGE_LOADOUT, LAYOUT
+    global STATE, INVENTORY, CLASS_MAP, WEAPON_MAP, KEY_CHANGE_LOADOUT, LAYOUT, NOTIFY_INVENTORY
 
     loadouts := INVENTORY[pressedKey]
 	if (!loadouts) {
@@ -257,10 +308,18 @@ toggledLoadout(pressedKey) {
 
     ; click to apply changes
     Click LAYOUT.submit.x, LAYOUT.submit.y
+
+    ; notify
+    
+    if (NOTIFY_INVENTORY) {
+        invo := active.Clone()
+        invo.RemoveAt(1)
+        toast(StrUpper(active[1]) "`n" active[2] ", " active[3] ", " active[4] "`n" active[5] ", " active[6])
+    }
 }
 
 toggleEnabled(arg) {
-	global LOADOUTS, STATE, ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP, INVENTORY
+	global LOADOUTS, STATE, ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP, INVENTORY, NOTIFY_ENABLED
 
 	STATE.enabled := !STATE.enabled
 	STATE.weapon := 1
@@ -274,6 +333,12 @@ toggleEnabled(arg) {
 	if (ENABLE_WEAPON_SWAP) {
 		HotKey(KEY_WEAPON_SWAP, STATE.enabled ? "On" : "Off")
 	}
+
+    if (NOTIFY_ENABLED) {
+        enableText := STATE.enabled ? "Enabled" : "Disabled"
+        msg := "Tribes 3 Script " enableText
+        toast(msg)
+    }
 }
 
 ; ##### HOTKEY BOOTSTRAP #####
