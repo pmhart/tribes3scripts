@@ -31,7 +31,7 @@ Edit the configuration area in the script to customize it to your needs.
 ### Rainmeter Settings
 
 - `ENABLE_RAINMETER`: Turn on and off the Rainmeter loadout HUD.
-- `PATH_RAINMETER`: Set this path if you have "Rainmeter" installed. Default is an empty string.
+- `PATH_RAINMETER`: Set this path if you have "Rainmeter" installed. Should be set to the default.
 
 ### Inventory Loadout Hotkeys
 
