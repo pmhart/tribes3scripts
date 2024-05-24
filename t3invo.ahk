@@ -7,7 +7,7 @@
 KEY_CHANGE_LOADOUT := "c"
 
 ; # SET SCREEN SIZE (1080, 1440)
-SCREEN_SIZE := 1440
+SCREEN_SIZE := 1080
 ; SCREEN_SIZE := 1440
 
 ; # KEY BINDING TO ENABLE OR DISABLE SCRIPT
@@ -20,10 +20,15 @@ NOTIFY_ENABLED := true
 NOTIFY_INVENTORY := true 
 
 ; # SET THIS PATH IF YOU HAVE "Rainmeter" Installed
-PATH_RAINMETER := ""
-; PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
+
+ENABLE_RAINMETER := true
+
+PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
 PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
 PATH_RAINMETER_INI := "illustro\Tribes"
+
+if not FileExist(PATH_RAINMETER)
+    ENABLE_RAINMETER := false
 
 ; # INVENTORY LOADOUT HOTKEYS
 ;
@@ -48,14 +53,14 @@ INVENTORY := Map(
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "thrust"],
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "blink"],
     ],
-    "3", [
+    "F2", [
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "blink"],
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "thrust"],
     ],
-    "4", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
-    "5", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
-    "6", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
-    "7", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
+    "F3", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
+    "F4", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
+    "F5", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
+    "F6", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
 ; # EXPERIMENTAL! weapon swap: switch between two weapons
@@ -350,7 +355,7 @@ toggledLoadout(pressedKey) {
     Click LAYOUT.submit.x, LAYOUT.submit.y
 
     ; notify
-    if (PATH_RAINMETER != "") {
+    if (ENABLE_RAINMETER) {
         updateRainmeter(active)
     } else if (NOTIFY_INVENTORY) {
         toast(StrUpper(className) "`n" active[2] ", " active[3] ", " active[4] "`n" active[5] ", " active[6])
@@ -381,8 +386,9 @@ toggleEnabled(arg) {
 
 ; #### HOTKEY BOOTSTRAP #####
 
-if (PATH_RAINMETER != "") {
+if (ENABLE_RAINMETER) {
     setRainmeterText("Tribes 3 Overlay", "Start Tribes", "Select a Loadout")
+    Run(PATH_RAINMETER)
     Run(PATH_RAINMETER " !ToggleConfig `"" PATH_RAINMETER_INI "`" `"toast.ini`"")
 }
 
