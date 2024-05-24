@@ -7,19 +7,15 @@
 KEY_CHANGE_LOADOUT := "c"
 
 ; # SET SCREEN SIZE (1080, 1440)
-SCREEN_SIZE := 1440
+SCREEN_SIZE := 1080
+; SCREEN_SIZE := 1440
 
 ; # ENABLE OR DISABLE SCRIPT
 KEY_ENABLED := "^k"
 
 ; INVENTORY LOADOUT HOTKEYS
 ;
-; 	Array<{
-;       key: keyboard key that toggles loadouts (can be combined keys, for example control+k would be "^k")
-;       loadouts = Array<[class, w1, w2, w3, belt, pack]>
-; 	}>
-;
-;   loadouts syntax: [class, w1, w2, w3, belt, pack]
+;   Loadout = [class, w1, w2, w3, belt, pack]
 ;
 ;       class: "pathfinder", "sentinel", "raider", "technician", "doombringer", "juggernaut"
 ;       w1: "spinfusor", "bolt", "thumper", "plasma"
@@ -27,6 +23,10 @@ KEY_ENABLED := "^k"
 ;       w3: "sparrow", "shotgun", "nova", "shocklance"
 ;       belt: "explosive", "chaff", "smoke", "impact", "sticky", "ap", "frag", "disc", "mine"
 ;       pack: "blink", "thrust", "stealth", "turret", "shield", "phase", "dome", "regen", "forcefield"
+;
+;   Inventory = {
+;       [HotKey]: Loadout | Loadout[]
+;   }
 ;
 
 INVENTORY := Map(
@@ -38,10 +38,10 @@ INVENTORY := Map(
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "thrust"],
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "blink"],
     ],
-    "4", [["raider", "spinfusor", "chain", "shotgun", "ap", "shield"]],
-    "5", [["technician", "spinfusor", "chain", "shotgun", "ap", "turret"]],
-    "6", [["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"]],
-    "7", [["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"]],
+    "4", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
+    "5", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
+    "6", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
+    "7", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
 ; ! EXPERIMENTAL: weapon swap: switch between two weapons
@@ -199,15 +199,19 @@ toggledLoadout(pressedKey) {
 		return
 	}
 
-    ; determine toggleIndex
+    ; determine toggleIndex & active loadout config
     toggleIndex := 1
-    if (STATE.toggleId == pressedKey and loadouts.Length > 1) {
-        nextIndex := STATE.toggleIndex + 1 
-        toggleIndex := nextIndex > loadouts.Length ? 1 : nextIndex
+    if (Type(loadouts[1]) == "Array") {
+        if (STATE.toggleId == pressedKey) {
+            nextIndex := STATE.toggleIndex + 1 
+            toggleIndex := nextIndex > loadouts.Length ? 1 : nextIndex
+        }
+        active := loadouts[toggleIndex]
+    }else {
+        active := loadouts
     }
 
     ; get active setup for toggleIndex
-    active := loadouts[STATE.toggleIndex]
     if(!active) {
         return
     }
