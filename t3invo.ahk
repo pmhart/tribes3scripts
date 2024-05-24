@@ -206,14 +206,6 @@ STATE := {
 
 ; ##### FUNCTIONS ##### 
 
-hideToast() {
-    global STATE, PATH_RAINMETER
-    if (STATE.tip != "") {
-        ToolTip("")
-        STATE.tip := ""
-    }
-}
-
 setRainmeterText(title, weapons, items) {
     template := FileRead("rainmeterTemplate.ini")
     template := StrReplace(template, "REPLACE_SKIN_PATH", PATH_RAINMETER_SKINS)
@@ -239,6 +231,14 @@ updateRainmeter(active) {
 
     setRainmeterText(title, weapons, items)
     Run(PATH_RAINMETER " !RefreshApp")
+}
+
+hideToast() {
+    global STATE, PATH_RAINMETER
+    if (STATE.tip != "") {
+        ToolTip("")
+        STATE.tip := ""
+    }
 }
 
 toast(msg) {
@@ -356,20 +356,20 @@ toggledLoadout(pressedKey) {
 }
 
 toggleEnabled(arg) {
-	global LOADOUTS, STATE, ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP, INVENTORY, NOTIFY_ENABLED
+    global LOADOUTS, STATE, ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP, INVENTORY, NOTIFY_ENABLED
 
-	STATE.enabled := !STATE.enabled
-	STATE.weapon := 1
-	STATE.toggleId := -1
-	STATE.toggleIndex := 1
-	
-	for key in INVENTORY {
-		Hotkey(key, STATE.enabled ? "On" : "Off")
-	}
+    STATE.enabled := !STATE.enabled
+    STATE.weapon := 1
+    STATE.toggleId := -1
+    STATE.toggleIndex := 1
 
-	if (ENABLE_WEAPON_SWAP) {
-		HotKey(KEY_WEAPON_SWAP, STATE.enabled ? "On" : "Off")
-	}
+    for key in INVENTORY {
+        Hotkey(key, STATE.enabled ? "On" : "Off")
+    }
+
+    if (ENABLE_WEAPON_SWAP) {
+        HotKey(KEY_WEAPON_SWAP, STATE.enabled ? "On" : "Off")
+    }
 
     if (NOTIFY_ENABLED) {
         enableText := STATE.enabled ? "Enabled" : "Disabled"
