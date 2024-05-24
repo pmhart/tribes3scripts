@@ -4,10 +4,10 @@
 ; ##### CONFIG AREA (EDIT ME) #####
 
 ; # SET CHANGE INVO KEY
-KEY_CHANGE_LOADOUT := "k"
+KEY_CHANGE_LOADOUT := "c"
 
 ; # SET SCREEN SIZE (1080, 1440)
-SCREEN_SIZE := 1080
+SCREEN_SIZE := 1440
 ; SCREEN_SIZE := 1440
 
 ; # KEY BINDING TO ENABLE OR DISABLE SCRIPT
@@ -19,19 +19,18 @@ NOTIFY_ENABLED := true
 ; # SHOW TOAST WHEN INVENTORY IS APPLIED VIA HOTKEY?
 NOTIFY_INVENTORY := true 
 
-; # SET THIS PATH IF YOU HAVE "Rainmeter" Installed
-
+; # ENABLE Rainmaster HUD?
 ENABLE_RAINMETER := true
 
+; # Rainmeter default install location, modify if yours is different
 PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
 PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
 PATH_RAINMETER_INI := "illustro\Tribes"
-
 if not FileExist(PATH_RAINMETER)
     ENABLE_RAINMETER := false
 
 ; # INVENTORY LOADOUT HOTKEYS
-;
+
 ;   HotKey = Keyboard Key (make sure not already bound in game, try "F1" ...)
 ;
 ;   Loadout = [class, w1, w2, w3, belt, pack]
@@ -49,18 +48,18 @@ if not FileExist(PATH_RAINMETER)
 ;
 
 INVENTORY := Map(
-    "F1", [
+    "2", [
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "thrust"],
         ["pathfinder", "spinfusor", "chain", "shotgun", "explosive", "blink"],
     ],
-    "F2", [
+    "3", [
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "blink"],
         ["sentinel", "spinfusor", "chain", "shotgun", "impact", "thrust"],
     ],
-    "F3", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
-    "F4", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
-    "F5", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
-    "F6", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
+    "4", ["raider", "spinfusor", "chain", "shotgun", "ap", "shield"],
+    "5", ["technician", "spinfusor", "chain", "shotgun", "ap", "turret"],
+    "6", ["doombringer", "spinfusor", "mortar", "shotgun", "disc", "shield"],
+    "7", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
 ; # EXPERIMENTAL! weapon swap: switch between two weapons
