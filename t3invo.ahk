@@ -26,6 +26,7 @@ ENABLE_RAINMETER := true
 PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
 PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
 PATH_RAINMETER_INI := "illustro\Tribes"
+PATH_RAINMETER_TRIBES_SKINS := PATH_RAINMETER_SKINS PATH_RAINMETER_INI
 if not FileExist(PATH_RAINMETER)
     ENABLE_RAINMETER := false
 
@@ -380,6 +381,7 @@ toggleEnabled(arg) {
 ; #### RAINMETER BOOTSTRAP #####
 
 if (ENABLE_RAINMETER) {
+    DirCreate(PATH_RAINMETER_TRIBES_SKINS)
     setRainmeterText("Tribes 3 Overlay", "Start Tribes", "Select a Loadout")
     Run(PATH_RAINMETER)
     Run(PATH_RAINMETER " !ToggleConfig `"" PATH_RAINMETER_INI "`" `"toast.ini`"")
