@@ -272,7 +272,7 @@ stringJoin(arr, delimiter := ", ") {
 }
 
 toggleWeapon(arg) {
-	global STATE, KEY_WEAPON_, KEY_WEAPON_2
+	global STATE, KEY_WEAPON_1, KEY_WEAPON_2
 	STATE.weapon := STATE.weapon == 1 ? 2 : 1
 	Send(STATE.weapon == 1 ? KEY_WEAPON_1 : KEY_WEAPON_2)
 }
