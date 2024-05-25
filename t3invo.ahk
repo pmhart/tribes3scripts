@@ -222,10 +222,6 @@ setRainmeterText(title, weapons, items) {
 updateRainmeter(active) {
     global PATH_RAINMETER, PATH_RAINMETER_INI, PATH_RAINMETER_SKINS
 
-    if (PATH_RAINMETER == "") {
-        return
-    }
-
     title := StrUpper(active[1])
     weapons := active[2] ", " active[3] ", " active[4] 
     items := active[5] ", " active[6]
