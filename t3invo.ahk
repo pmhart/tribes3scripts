@@ -72,6 +72,16 @@ KEY_WEAPON_SWAP := "q"
 KEY_WEAPON_1 := "p"
 KEY_WEAPON_2 := "o"
 
+; MOUSE_SPEEDS = { [KeyBinding]: Speed 1 - 20 }
+
+ENABLE_MOUSE_SPEEDS := true
+
+MOUSE_SPEEDS := Map(
+    ; control up to cycle between 5, 10, and 15
+    "^Up", [5, 10, 15],
+    ; control down to strictly set 10 each time
+    "^Down", [10]
+)
 
 ; # ends config editing area!
 
@@ -202,9 +212,10 @@ STATE := {
     weapon: 1,
     toggleId: -1,
     toggleIndex: 1,
+    mouseKey: "",
+    mouseIndex: 1,
     tip: "",
 }
-
 ; ##### FUNCTIONS ##### 
 
 setRainmeterText(title, weapons, items) {
@@ -374,6 +385,25 @@ toggleEnabled(arg) {
     }
 }
 
+setMouseSpeed(pressedKey) {
+    global MOUSE_SPEEDS, STATE
+
+    speeds := MOUSE_SPEEDS[pressedKey]
+    mouseIndex := 1
+
+    if (STATE.mouseKey == pressedKey) {
+        nextIndex := STATE.mouseIndex + 1 
+        mouseIndex := nextIndex > speeds.Length ? 1 : nextIndex
+    }
+
+    STATE.mouseIndex := mouseIndex
+    STATE.mouseKey := pressedKey
+    
+    speed := speeds[mouseIndex]
+    toast(speed)
+    DllCall("SystemParametersInfo", "UInt", 0x71, "UInt", 0, "UInt", speed, "UInt", 0)
+}
+
 ; #### RAINMETER BOOTSTRAP #####
 
 if (ENABLE_RAINMETER) {
@@ -388,6 +418,13 @@ if (ENABLE_RAINMETER) {
 ; invo bindings
 for key in INVENTORY {
 	Hotkey(key, (arg) => toggledLoadout(arg))
+}
+
+; mouse speeds
+if (ENABLE_MOUSE_SPEEDS) {
+    for key in MOUSE_SPEEDS {
+        Hotkey(key, (arg) => setMouseSpeed(arg))
+    }
 }
 
 ; weapon swap
