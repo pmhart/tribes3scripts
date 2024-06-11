@@ -16,6 +16,7 @@ This script is designed to manage loadouts for the game "Tribes". It allows you 
 - Loadout hotkeys can cycle between multiple loadouts (blink, thrust etc.)
 - Rainmeter HUD that provides status of current loadout.
 - Enable or disable the script with a hotkey.
+- Set Windows mouse speeds
 - Toggle between two weapons with he same key (experimental!)
 
 ## Configuration
@@ -32,6 +33,20 @@ Edit the configuration area in the script to customize it to your needs.
 
 - `ENABLE_RAINMETER`: Turn on and off the Rainmeter loadout HUD.
 - `PATH_RAINMETER`: Set this path if you have "Rainmeter" installed. Should be set to the default.
+
+### Mouse Speed Settings
+
+- `ENABLE_MOUSE_SPEEDS`: Enables the bindings that toggle the mouse speeds.
+- `MOUSE_SPEEDS`: Map that binds keys to mouse speeds. The value is an array of mouse speeds 1 - 20 that will cycle as you tap the hotkey.
+
+```
+Speed = 1,2,3 ... 20
+
+MouseSpeed = {
+    [HotKey]: Speed[]
+}
+
+```
 
 ### Inventory Loadout Hotkeys
 
