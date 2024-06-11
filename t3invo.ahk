@@ -1,5 +1,5 @@
 ﻿#Requires AutoHotkey v2.0
-; VERSION 0.8
+; VERSION 1.0
 
 ; ##### CONFIG AREA (EDIT ME) #####
 
@@ -74,7 +74,7 @@ KEY_WEAPON_2 := "o"
 
 ; MOUSE_SPEEDS = { [KeyBinding]: Speed 1 - 20 }
 
-ENABLE_MOUSE_SPEEDS := true
+ENABLE_MOUSE_SPEEDS := false
 
 MOUSE_SPEEDS := Map(
     ; control up to cycle between 5, 10, and 15
@@ -400,7 +400,6 @@ setMouseSpeed(pressedKey) {
     STATE.mouseKey := pressedKey
     
     speed := speeds[mouseIndex]
-    toast(speed)
     DllCall("SystemParametersInfo", "UInt", 0x71, "UInt", 0, "UInt", speed, "UInt", 0)
 }
 
