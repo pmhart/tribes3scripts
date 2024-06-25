@@ -1,20 +1,15 @@
 ﻿#Requires AutoHotkey v2.0
-; VERSION 1.1
+; VERSION 1.2
 
 ; ##### CONFIG AREA (EDIT ME) #####
 
 ; # SET CHANGE INVO KEY
 KEY_CHANGE_LOADOUT := "k"
 
-; # SET SCREEN SIZE (1080, 1440)
-SCREEN_SIZE := 1080
-; SCREEN_SIZE := 1440
+; # SET SCREEN SIZE
+SCREEN_SIZE := 1080 ; 1080 or 1440
 
-; # ENABLE OR DISABLE THIS SCRIPT
-KEY_ENABLED := "^k"
-NOTIFY_ENABLED := true ; show toast when enabled is toggled?
-
-; # INVENTORY
+; # SET INVENTORY
 ;
 ;   HotKey = Keyboard Key (make sure not already bound in game, try "F1" ...)
 ;
@@ -47,32 +42,35 @@ INVENTORY := Map(
     "F6", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
+; # ENABLE OR DISABLE THIS SCRIPT
+KEY_ENABLED := "^k"
+
+; NOTIFY SETTINGS
 NOTIFY_INVENTORY := true ; show toast when inventory is toggled?
+NOTIFY_ENABLED := true ; show toast when enabled is toggled?
 
-; # STOPWATCH & KEY CONFIG
+; # STOPWATCH
 ENABLE_STOPWATCH := false
-KEY_SHOW_STOPWATCH := "^g"
-KEY_RUN_STOPWATCH := "g"
+KEY_SHOW_STOPWATCH := "^g" ; key to show or hide stopwatch
+KEY_RUN_STOPWATCH := "g" ; key to start and stop stopwatch when showing
 
-; # RETICLE, KEY CONFIG & DEFAULTS
+; # RETICLE
 ENABLE_RETICLE := false
-KEY_SHOW_RETICLE := "^p"
-KEY_RETICLE_TYPE := "-"
-KEY_RETICLE_COLOR := "="
-DEFAULT_RETICLE_TYPE_INDEX := 1
-DEFAULT_RETICLE_COLOR_INDEX := 1
+KEY_SHOW_RETICLE := "^p" ; key to show or hide reticle
+KEY_RETICLE_TYPE := "-" ; key to change crosshairs
+KEY_RETICLE_COLOR := "=" ; key to change reticle color
+DEFAULT_RETICLE_TYPE_INDEX := 1 ; index of crosshair you like (see ReticleGUI constructor)
+DEFAULT_RETICLE_COLOR_INDEX := 1 ; index of color you like (see ReticleGUI constructor)
 
-; MOUSE_SPEEDS
+; MOUSE SPEED TOGGLER
 ENABLE_MOUSE_SPEEDS := false
 ; { [KeyBinding]: Speed 1 - 20 }
 MOUSE_SPEEDS := Map(
-    ; control up to cycle between 5, 10, and 15
-    "^Up", [5, 10, 15],
-    ; control down to strictly set 10 each time
-    "^Down", [10]
+    "^Up", [5, 10, 15], ; control up to cycle between 5, 10, and 15
+    "^Down", [10] ; control down to strictly set 10 each time
 )
 
-; # ENABLE Rainmeter HUD?
+; # RAINMETER HUD
 ENABLE_RAINMETER := true
 ; # Rainmeter default install location, modify if yours is different
 PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
@@ -82,7 +80,7 @@ PATH_RAINMETER_TRIBES_SKINS := PATH_RAINMETER_SKINS PATH_RAINMETER_INI
 if not FileExist(PATH_RAINMETER)
     ENABLE_RAINMETER := false
 
-; # EXPERIMENTAL! weapon swap: switch between two weapons
+; # [EXPERIMENTAL!] WEAPON SWAP
 ENABLE_WEAPON_SWAP := false
 ; 	Note! use key bindings you don't normally press to allow the swap button to be all you need
 KEY_WEAPON_SWAP := "q"
