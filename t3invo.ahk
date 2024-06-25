@@ -32,17 +32,6 @@ KEY_RETICLE_COLOR := "="
 DEFAULT_RETICLE_TYPE_INDEX := 1
 DEFAULT_RETICLE_COLOR_INDEX := 1
 
-; # ENABLE Rainmeter HUD?
-ENABLE_RAINMETER := true
-
-; # Rainmeter default install location, modify if yours is different
-PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
-PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
-PATH_RAINMETER_INI := "illustro\Tribes"
-PATH_RAINMETER_TRIBES_SKINS := PATH_RAINMETER_SKINS PATH_RAINMETER_INI
-if not FileExist(PATH_RAINMETER)
-    ENABLE_RAINMETER := false
-
 ; # INVENTORY LOADOUT HOTKEYS
 
 ;   HotKey = Keyboard Key (make sure not already bound in game, try "F1" ...)
@@ -85,6 +74,16 @@ MOUSE_SPEEDS := Map(
     ; control down to strictly set 10 each time
     "^Down", [10]
 )
+
+; # ENABLE Rainmeter HUD?
+ENABLE_RAINMETER := true
+; # Rainmeter default install location, modify if yours is different
+PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
+PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
+PATH_RAINMETER_INI := "illustro\Tribes"
+PATH_RAINMETER_TRIBES_SKINS := PATH_RAINMETER_SKINS PATH_RAINMETER_INI
+if not FileExist(PATH_RAINMETER)
+    ENABLE_RAINMETER := false
 
 ; # EXPERIMENTAL! weapon swap: switch between two weapons
 ENABLE_WEAPON_SWAP := false
