@@ -217,7 +217,6 @@ class StopwatchGUI {
         this.running := false
         this.seconds := 0
         this.timer := ObjBindMethod(this, "Tick")
-        this.onClose := ObjBindMethod(this, "Close")
     }
 
     Reset() {
