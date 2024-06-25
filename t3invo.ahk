@@ -461,7 +461,7 @@ toggledLoadout(pressedKey) {
 }
 
 toggleEnabled(arg) {
-    global LOADOUTS, STATE, ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP, INVENTORY, NOTIFY_ENABLED
+    global LOADOUTS, STATE, ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP, INVENTORY, NOTIFY_ENABLED, ENABLE_STOPWATCH, ENABLE_MOUSE_SPEEDS
 
     STATE.enabled := !STATE.enabled
     STATE.weapon := 1
@@ -479,6 +479,17 @@ toggleEnabled(arg) {
     if (NOTIFY_ENABLED) {
         enableText := STATE.enabled ? "Enabled" : "Disabled"
         toast("Tribes 3 Script: " enableText)
+    }
+
+    if (ENABLE_MOUSE_SPEEDS) {
+        for key in MOUSE_SPEEDS {
+            Hotkey(key, STATE.enabled ? "On" : "Off")
+        }
+    }
+
+    if (ENABLE_STOPWATCH) {
+        HotKey(KEY_SHOW_STOPWATCH, STATE.enabled ? "On" : "Off")
+        HotKey(KEY_RUN_STOPWATCH, STATE.enabled ? "On" : "Off")
     }
 }
 
