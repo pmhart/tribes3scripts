@@ -10,30 +10,12 @@ KEY_CHANGE_LOADOUT := "k"
 SCREEN_SIZE := 1080
 ; SCREEN_SIZE := 1440
 
-; # KEY BINDING TO ENABLE OR DISABLE SCRIPT
+; # ENABLE OR DISABLE THIS SCRIPT
 KEY_ENABLED := "^k"
+NOTIFY_ENABLED := true ; show toast when enabled is toggled?
 
-; # SHOW TOAST WHEN SCRIPT IS TURNED ON AND OFF?
-NOTIFY_ENABLED := true
-
-; # SHOW TOAST WHEN INVENTORY IS APPLIED VIA HOTKEY?
-NOTIFY_INVENTORY := true 
-
-; # ENABLE STOPWATCH & KEY CONFIG
-ENABLE_STOPWATCH := false
-KEY_SHOW_STOPWATCH := "^g"
-KEY_RUN_STOPWATCH := "g"
-
-; # ENABLE RETICLE, KEY CONFIG & DEFAULTS
-ENABLE_RETICLE := false
-KEY_SHOW_RETICLE := "^p"
-KEY_RETICLE_TYPE := "-"
-KEY_RETICLE_COLOR := "="
-DEFAULT_RETICLE_TYPE_INDEX := 1
-DEFAULT_RETICLE_COLOR_INDEX := 1
-
-; # INVENTORY LOADOUT HOTKEYS
-
+; # INVENTORY
+;
 ;   HotKey = Keyboard Key (make sure not already bound in game, try "F1" ...)
 ;
 ;   Loadout = [class, w1, w2, w3, belt, pack]
@@ -65,9 +47,24 @@ INVENTORY := Map(
     "F6", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
-; MOUSE_SPEEDS = { [KeyBinding]: Speed 1 - 20 }
-ENABLE_MOUSE_SPEEDS := false
+NOTIFY_INVENTORY := true ; show toast when inventory is toggled?
 
+; # STOPWATCH & KEY CONFIG
+ENABLE_STOPWATCH := false
+KEY_SHOW_STOPWATCH := "^g"
+KEY_RUN_STOPWATCH := "g"
+
+; # RETICLE, KEY CONFIG & DEFAULTS
+ENABLE_RETICLE := false
+KEY_SHOW_RETICLE := "^p"
+KEY_RETICLE_TYPE := "-"
+KEY_RETICLE_COLOR := "="
+DEFAULT_RETICLE_TYPE_INDEX := 1
+DEFAULT_RETICLE_COLOR_INDEX := 1
+
+; MOUSE_SPEEDS
+ENABLE_MOUSE_SPEEDS := false
+; { [KeyBinding]: Speed 1 - 20 }
 MOUSE_SPEEDS := Map(
     ; control up to cycle between 5, 10, and 15
     "^Up", [5, 10, 15],
