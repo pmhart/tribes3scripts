@@ -65,21 +65,25 @@ DEFAULT_RETICLE_COLOR_INDEX := 1 ; index of color you like (see ReticleGUI const
 
 ; MOUSE SPEED TOGGLER
 ENABLE_MOUSE_SPEEDS := false
-; { [KeyBinding]: Speed 1 - 20 }
 MOUSE_SPEEDS := Map(
+    ; { [KeyBinding]: Speed 1 - 20 }
     "^Up", [5, 10, 15], ; control up to cycle between 5, 10, and 15
     "^Down", [10] ; control down to strictly set 10 each time
 )
 
 ; # RAINMETER HUD
 ENABLE_RAINMETER := true
-; # Rainmeter default install location, modify if yours is different
+; rainmeter default install location, modify if yours is different
 PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
 PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
 PATH_RAINMETER_INI := "illustro\Tribes"
 PATH_RAINMETER_TRIBES_SKINS := PATH_RAINMETER_SKINS PATH_RAINMETER_INI
-if not FileExist(PATH_RAINMETER)
+FILE_NAME_RAINMETER_TEMPLATE := "rainmeterTemplate.ini"
+PATH_TEMPLATE := A_ScriptDir . "\" . FILE_NAME_RAINMETER_TEMPLATE
+if (not FileExist(PATH_RAINMETER) OR not FileExist(PATH_TEMPLATE)) {
+    ; missing required files for rainmeter so disable
     ENABLE_RAINMETER := false
+}
 
 ; # [EXPERIMENTAL!] WEAPON SWAP
 ENABLE_WEAPON_SWAP := false
@@ -421,7 +425,9 @@ STATE := {
 ; ##### FUNCTIONS ##### 
 
 setRainmeterText(title, weapons, items) {
-    template := FileRead("rainmeterTemplate.ini")
+    global FILE_NAME_RAINMETER_TEMPLATE, PATH_RAINMETER_SKINS, PATH_RAINMETER_INI
+
+    template := FileRead(FILE_NAME_RAINMETER_TEMPLATE)
     template := StrReplace(template, "REPLACE_SKIN_PATH", PATH_RAINMETER_SKINS)
     template := StrReplace(template, "REPLACE_TITLE", title)
     template := StrReplace(template, "REPLACE_WEAPONS", weapons)
@@ -652,7 +658,7 @@ if (ENABLE_RETICLE) {
     Hotkey(KEY_SHOW_RETICLE, (arg) => RETICLE.ToggleDisplay())
     Hotkey(KEY_RETICLE_TYPE, (arg) => RETICLE.ToggleCrosshair())
     Hotkey(KEY_RETICLE_COLOR, (arg) => RETICLE.ToggleColor())
-    
+
     if (SHOW_RETICLE_ONLOAD) {
         RETICLE.ToggleDisplay()
     }
