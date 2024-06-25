@@ -22,6 +22,11 @@ NOTIFY_INVENTORY := true
 ; # ENABLE Rainmeter HUD?
 ENABLE_RAINMETER := true
 
+; # ENABLE STOPWATCH & KEY CONFIG
+ENABLE_STOPWATCH := false
+KEY_SHOW_STOPWATCH := "^g"
+KEY_RUN_STOPWATCH := "g"
+
 ; # Rainmeter default install location, modify if yours is different
 PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
 PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
@@ -160,7 +165,7 @@ WEAPON_MAP := {
     heavy: {
         1: ["spinfusor", "bolt"],
         2: ["chain", "mortar", "gladiator", "plasma"],
-        3: ["sparrow", "shotgun", "nova", "shocklance"]
+        3: ["sparrow", "shotgun", "shocklance"]
     },
 }
 
@@ -193,15 +198,107 @@ CLASS_MAP := Map(
         index: 5,
         weapons: WEAPON_MAP.heavy,
         belt: ["frag", "disc"],
-        pack: ["shield", "regen"],
+        pack: ["dome", "shield", "regen"],
     },
     "juggernaut", {
         index: 6,
         weapons: WEAPON_MAP.heavy,
         belt: ["mine", "disc"],
-        pack: ["dome", "regen", "forcefield"],
+        pack: ["dome", "shield", "forcefield"],
     }
 )
+
+; ##### STOPWATCH CLASS
+
+class StopwatchGUI {
+    __New() {
+        this.interval := 1000
+        this.gui := false
+        this.running := false
+        this.seconds := 0
+        this.timer := ObjBindMethod(this, "Tick")
+        this.onClose := ObjBindMethod(this, "Close")
+    }
+
+    Reset() {
+        this.seconds := 0
+        if (this.gui != false) {
+            this.gui["TimeText"].Value := "00:00"
+        }
+    }
+
+    Stop() {
+        this.Reset()
+        this.running := false
+        SetTimer this.timer, 0
+    }
+
+    Start() {
+        this.Reset()   
+        this.running := true
+        SetTimer this.timer, this.interval
+    }
+
+    Close() {
+        this.Stop()
+
+        if (this.gui != false) {
+            this.gui.Destroy()
+            this.gui := false
+        }
+    }
+
+    ToggleGUI() {
+        if (this.gui != false) {
+            this.Close()
+            return
+        }
+
+        this.gui := Gui()
+        this.gui.Add("Text", "x67 y22 w60 h20 vTimeText", "00:00")
+        this.gui.OnEvent("Close", (arg) => this.Close())
+        this.gui.Show("h69 w165")
+    }
+
+    ToggleRunning() {
+        if (this.gui == false) {
+            return
+        }
+
+        if (this.running) {
+            this.Stop()
+        } else {
+            this.Start()
+        }
+    }
+
+    FormatSeconds(seconds) {
+        time := 19990101  ; *Midnight* of an arbitrary date.
+        time := DateAdd(time, seconds, "Seconds")
+
+        if (seconds < 3600) {
+            ; hours ...
+            return FormatTime(time, "mm:ss")
+        }
+
+        return seconds//3600 ":" FormatTime(time, "mm:ss")
+    }
+
+    Tick() {
+        if (this.gui == false) {
+            this.Close()
+        }
+
+        this.seconds += 1
+        if (this.seconds > 59) {
+            this.minutes += 1
+            this.seconds := 0
+        }
+
+        
+        this.gui["TimeText"].Value := this.FormatSeconds(this.seconds)
+    }
+}
 
 ; ##### STATE ##### 
 
@@ -410,6 +507,14 @@ if (ENABLE_RAINMETER) {
     setRainmeterText("Tribes 3 Overlay", "Start Tribes", "Select a Loadout")
     Run(PATH_RAINMETER)
     Run(PATH_RAINMETER " !ToggleConfig `"" PATH_RAINMETER_INI "`" `"toast.ini`"")
+}
+
+; #### STOPWATCH BOOTSTRAP #####
+
+if (ENABLE_STOPWATCH) {
+    Stopwatch := StopwatchGUI()
+    Hotkey(KEY_SHOW_STOPWATCH, (arg) => Stopwatch.ToggleGUI())
+    Hotkey(KEY_RUN_STOPWATCH, (arg) => Stopwatch.ToggleRunning())
 }
 
 ; ##### HOTKEY BOOTSTRAP #####

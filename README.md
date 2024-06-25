@@ -48,6 +48,12 @@ MouseSpeed = {
 
 ```
 
+### Stopwatch
+
+- `ENABLE_STOPWATCH`: Turn on and off to enable toggle keys for the stopwatch hud (defaults to false).
+- `KEY_SHOW_STOPWATCH`: Key to show stopwatch (defaults to "CTRL + g").
+- `KEY_RUN_STOPWATCH`: Key to start and stop stopwatch when displayed (defaults to "g").
+
 ### Inventory Loadout Hotkeys
 
 Define your loadouts with hotkeys and loadout configurations. 
