@@ -651,6 +651,7 @@ if (ENABLE_RETICLE) {
     Hotkey(KEY_SHOW_RETICLE, (arg) => RETICLE.ToggleDisplay())
     Hotkey(KEY_RETICLE_TYPE, (arg) => RETICLE.ToggleCrosshair())
     Hotkey(KEY_RETICLE_COLOR, (arg) => RETICLE.ToggleColor())
+    RETICLE.ToggleDisplay()
 }
 
 ; ##### HOTKEY BOOTSTRAP #####
