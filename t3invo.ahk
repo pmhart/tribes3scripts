@@ -1,5 +1,5 @@
 ﻿#Requires AutoHotkey v2.0
-; VERSION 1.0
+; VERSION 1.1
 
 ; ##### CONFIG AREA (EDIT ME) #####
 
