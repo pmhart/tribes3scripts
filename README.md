@@ -54,6 +54,15 @@ MouseSpeed = {
 - `KEY_SHOW_STOPWATCH`: Key to show stopwatch (defaults to "CTRL + g").
 - `KEY_RUN_STOPWATCH`: Key to start and stop stopwatch when displayed (defaults to "g").
 
+### Reticle
+
+- `ENABLE_RETICLE`: Turn on and off to enable toggle keys for the custom reticle (defaults to false).
+- `KEY_SHOW_RETICLE`: Key to show or hide the reticle (defaults to "CTRL + p").
+- `KEY_RETICLE_TYPE`: Key to change the crosshair (defaults to "-").
+- `KEY_RETICLE_COLOR`: Key to change the color of the reticle (defaults to "=").
+- `DEFAULT_RETICLE_TYPE_INDEX`: Sets the starting crosshair type so you can always start with the kind you like (defaults to a dot at index 1).
+- `DEFAULT_RETICLE_COLOR_INDEX`: Sets the starting color index so you can always start with the color you like (defaults to green at index 1).
+
 ### Inventory Loadout Hotkeys
 
 Define your loadouts with hotkeys and loadout configurations. 

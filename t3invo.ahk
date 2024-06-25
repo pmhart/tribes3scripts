@@ -27,6 +27,14 @@ ENABLE_STOPWATCH := false
 KEY_SHOW_STOPWATCH := "^g"
 KEY_RUN_STOPWATCH := "g"
 
+; # ENABLE RETICLE, KEY CONFIG & DEFAULTS
+ENABLE_RETICLE := false
+KEY_SHOW_RETICLE := "^p"
+KEY_RETICLE_TYPE := "-"
+KEY_RETICLE_COLOR := "="
+DEFAULT_RETICLE_TYPE_INDEX := 1
+DEFAULT_RETICLE_COLOR_INDEX := 1
+
 ; # Rainmeter default install location, modify if yours is different
 PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
 PATH_RAINMETER_SKINS := EnvGet("USERPROFILE") "\Documents\Rainmeter\Skins\"
@@ -208,7 +216,7 @@ CLASS_MAP := Map(
     }
 )
 
-; ##### STOPWATCH CLASS
+; ##### STOPWATCH CLASS ##### 
 
 class StopwatchGUI {
     __New() {
@@ -299,7 +307,106 @@ class StopwatchGUI {
     }
 }
 
+; ##### RETICLE CLASS ##### 
+
+class ReticleGUI {
+    __New() {
+        this.gui := false
+
+        this.colorIndex := DEFAULT_RETICLE_COLOR_INDEX
+        this.colors := ["00FF00", "FF0000", "0000FF", "FFA500", "800080", "FFFF00", "00FFFF", "FFC0CB"]
+
+        this.crosshairIndex := DEFAULT_RETICLE_TYPE_INDEX
+        this.crosshairs := [
+            "11-11 14-11 14-14 11-14 11-11",
+            "10-0 10-4 9-5 8-5 7-5 6-7 5-8 5-10 0-9 0-15 5-14 5-16 6-17 7-18 8-19 9-19 10-20 9-25 15-25 14-19 15-19 16-19 17-18 18-17 19-16 19-15 20-14 25-15 25-9 20-10 19-9 19-8 18-7 17-5 16-5 14-5 15-0 10-0 12-9 10-4 9-5 8-5 7-5 6-7 5-8 5-10 9-12 5-14 5-16 6-17 7-18 8-19 9-19 10-20 12-15 14-19 15-19 16-19 17-18 18-17 19-16 19-15 20-14 16-12 20-10 19-9 19-8 18-7 17-5 16-5 14-5 12-9 12-11 13-12 12-13 12-12 12-11 12-9 10-0",
+            "10-10 7-2 12-2 12-13 13-12 12-11 12-2 18-2 14-10 23-5 23-18 14-14 18-23 7-23 10-14 2-18 2-5 10-10 6-2 5-2 3-3 2-5 2-5 2-18 2-19 3-21 5-23 6-23 18-23 19-23 21-22 23-19 23-18 23-5 23-5 22-3 20-2 19-2 6-2",
+            "11-16 11-22 9-20 8-19 7-18 6-17 5-16 5-15 4-14 4-10 5-9 5-8 6-7 7-6 8-5 9-4 10-4 11-3 14-3 15-4 16-4 17-5 18-6 19-7 20-8 20-9 21-10 21-14 20-15 20-16 19-17 18-18 17-19 16-20 14-22 14-16 15-17 16-17 17-16 17-15 18-14 18-10 17-9 17-8 16-7 15-7 14-6 11-6 10-7 9-7 8-8 8-9 7-10 7-14 8-15 8-16 9-17 10-17 11-16 11-16 11-12 12-13 12-10 13-11 12-12 12-13 11-12 12-13 11-14 13-14 13-12 14-13 13-14 11-14",
+            "7-8 12-0 17-8 20-12 24-21 15-21 9-21 0-21 4-12 6-13 3-19 9-19 9-21 15-21 15-19 21-19 18-13 20-12 17-8 15-9 12-4 9-9 7-8",
+            "12-0 15-0 16-1 17-1 18-2 19-2 20-3 21-4 22-5 22-6 23-7 23-8 24-9 24-15 23-16 23-17 22-18 22-19 21-20 20-21 19-22 18-22 17-23 16-23 15-24 9-24 8-23 7-23 6-22 5-22 4-21 3-20 2-19 2-18 1-17 1-16 0-15 0-9 1-8 1-7 2-6 2-5 3-4 4-3 5-2 6-2 7-1 8-1 9-0 12-0 13-1 13-9 12-9 12-2 9-2 8-3 7-3 6-4 5-4 4-5 4-6 3-7 3-8 2-9 2-12 9-12 9-13 2-13 2-15 3-16 3-17 4-18 4-19 5-20 6-20 7-21 8-21 9-22 12-22 12-15 13-15 13-22 15-22 16-21 17-21 18-20 19-20 20-19 20-18 21-17 21-16 22-15 22-13 15-13 15-12 22-12 22-9 21-8 21-7 20-6 20-5 19-4 18-4 17-3 16-3 15-2 12-2 12-0",
+            "12-0 15-0 16-1 17-1 18-2 19-2 20-3 21-4 22-5 22-6 23-7 23-8 24-9 24-15 23-16 23-17 22-18 22-19 21-20 20-21 19-22 18-22 17-23 16-23 15-24 9-24 8-23 7-23 6-22 5-22 4-21 3-20 2-19 2-18 1-17 1-16 0-15 0-9 1-8 1-7 2-6 2-5 3-4 4-3 5-2 6-2 7-1 8-1 9-0 12-0 12-2 9-2 8-3 7-3 6-4 4-3 3-4 4-6 3-7 3-8 2-9 2-15 3-16 3-17 4-18 2-19 4-22 6-20 7-21 8-21 9-22 15-22 16-21 17-21 18-20 20-21 21-19 20-18 21-17 21-16 22-15 22-9 21-8 21-7 20-6 21-4 20-3 18-4 17-3 16-3 15-2 12-2 12-0 12-13 13-12 12-11 12-0",
+            "12-0 15-0 16-1 17-1 18-2 19-2 20-3 21-4 22-5 22-6 23-7 23-8 24-9 24-15 23-16 23-17 22-18 22-19 21-20 20-21 19-22 18-22 17-23 16-23 15-24 9-24 8-23 7-23 6-22 5-22 4-21 3-20 2-19 2-18 1-17 1-16 0-15 0-9 1-8 1-7 2-6 2-5 3-4 4-3 5-2 6-2 7-1 8-1 9-0 12-0 12-2 9-2 8-3 8-6 7-7 7-10 8-10 9-9 9-7 8-6 8-3 7-3 6-4 5-4 4-5 4-6 3-7 3-8 2-9 2-15 3-16 3-17 4-18 4-19 5-20 6-20 7-21 8-21 9-22 12-22 12-16 9-16 8-17 7-17 5-19 4-18 4-17 5-16 6-15 7-14 8-14 9-13 15-13 16-14 17-14 18-15 19-16 20-17 20-18 19-19 18-19 17-17 16-17 15-16 12-16 12-22 15-22 16-21 17-21 18-20 19-20 20-19 20-18 21-17 21-16 22-15 22-9 21-8 21-7 20-6 20-5 19-4 18-4 17-3 16-3 16-7 16-10 17-10 18-9 18-7 17-6 16-7 16-3 15-2 12-2 12-0",
+            "12-0 15-0 16-1 17-1 18-2 19-2 20-3 21-4 22-5 22-6 23-7 23-8 24-9 24-15 23-16 23-17 22-18 22-19 21-20 20-21 19-22 18-22 17-23 16-23 15-24 9-24 8-23 7-23 6-22 5-22 4-21 3-20 2-19 2-18 1-17 1-16 0-15 0-9 1-8 1-7 2-6 2-5 3-4 4-3 5-2 6-2 7-1 8-1 9-0 12-0 12-2 9-2 8-3 7-3 6-4 5-4 4-5 4-6 3-7 3-8 2-9 2-15 3-16 3-17 4-18 4-19 5-20 6-20 7-21 8-21 8-20 8-16 4-16 4-17 7-20 8-20 8-21 9-22 15-22 16-21 16-20 16-16 18-16 20-16 20-17 16-20 16-21 17-21 18-20 19-20 20-19 20-18 21-17 21-16 22-15 22-9 21-8 21-7 20-6 20-5 19-4 18-4 17-3 16-3 15-3 9-3 12-6 15-3 15-2 12-2 12-0",
+            "12-0 25-0 25-25 0-25 0-0 9-0 7-2 2-2 2-7 0-9 0-15 2-17 2-23 7-23 9-25 16-25 18-23 23-23 23-17 25-15 25-9 23-7 23-2 17-2 15-0 12-0 12-3 12-11 11-11 11-12 3-12 3-13 11-13 11-14 12-14 12-22 13-22 13-14 14-14 14-13 22-13 22-12 14-12 14-11 13-11 13-3 12-3 12-0"
+        ]
+    }
+
+    Draw() {
+        if (this.gui != false) {
+            this.gui.BackColor := this.colors[this.colorIndex]
+            WinSetRegion(this.crosshairs[this.crosshairIndex], this.gui.Hwnd)
+        }    
+    }
+
+    Show() {
+        if (this.gui != false) {
+            return
+        }
+
+        this.gui := Gui()
+        this.gui.Opt("+LastFound")
+        this.gui.Opt("+AlwaysOnTop")
+        this.gui.Opt("-Caption")
+        this.gui.Opt("+Owner")
+        this.gui.MarginX := 0
+        this.gui.MarginY := 0
+
+        size := 25 ; Maximum canvas size of X-Y values for crosshair
+        screenWidth := SysGet(0)
+        screenHeight := SysGet(1)
+        x := screenWidth//2-(size//2)
+        y := screenHeight//2-(size//2)
+        this.gui.Show("w" . size . " h" . size . " x" . x . " y" . y . " NA")  
+        WinSetStyle("+E0x80020", this.gui.Hwnd) ; Extended style, makes the window ignore the mouse cursor
+
+        this.Draw()
+    }
+
+    Hide() {
+        this.crosshairIndex := DEFAULT_RETICLE_TYPE_INDEX
+        this.colorIndex := DEFAULT_RETICLE_COLOR_INDEX
+
+        if (this.gui != false) {
+            this.gui.Destroy()
+            this.gui := false
+        }
+    }
+
+    ToggleDisplay() {
+        if (this.gui == false) {
+            this.Show()
+        } else {
+            this.HIde()
+        }
+    }
+
+    ToggleCrosshair() {
+        if (this.gui == false) {
+            return
+        }
+
+        this.crosshairIndex += 1
+        if (this.crosshairIndex > this.crosshairs.Length) {
+            this.crosshairIndex := 1
+        }
+
+        this.Draw()
+    }
+
+    ToggleColor() {
+        this.colorIndex += 1
+        if (this.colorIndex > this.colors.Length) {
+            this.colorIndex := 1
+        }
+
+        this.Draw()
+    }
+}
+
 ; ##### STATE ##### 
+
+STOPWATCH := StopwatchGUI()
+RETICLE := ReticleGUI()
 
 LAYOUT := SCREEN_RESOLUTION_MAP[SCREEN_SIZE]
 
@@ -460,7 +567,13 @@ toggledLoadout(pressedKey) {
 }
 
 toggleEnabled(arg) {
-    global LOADOUTS, STATE, ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP, INVENTORY, NOTIFY_ENABLED, ENABLE_STOPWATCH, ENABLE_MOUSE_SPEEDS
+    global LOADOUTS, STATE
+    global INVENTORY
+    global ENABLE_WEAPON_SWAP, KEY_WEAPON_SWAP
+    global NOTIFY_ENABLED
+    global ENABLE_MOUSE_SPEEDS, MOUSE_SPEEDS
+    global STOPWATCH, ENABLE_STOPWATCH, KEY_SHOW_STOPWATCH, KEY_RUN_STOPWATCH
+    global RETICLE, ENABLE_RETICLE, KEY_SHOW_RETICLE, KEY_RETICLE_TYPE, KEY_RETICLE_COLOR
 
     STATE.enabled := !STATE.enabled
     STATE.weapon := 1
@@ -487,8 +600,16 @@ toggleEnabled(arg) {
     }
 
     if (ENABLE_STOPWATCH) {
+        STOPWATCH.Close()
         HotKey(KEY_SHOW_STOPWATCH, STATE.enabled ? "On" : "Off")
         HotKey(KEY_RUN_STOPWATCH, STATE.enabled ? "On" : "Off")
+    }
+
+    if (ENABLE_RETICLE) {
+        RETICLE.Hide()
+        HotKey(KEY_SHOW_RETICLE, STATE.enabled ? "On" : "Off")
+        HotKey(KEY_RETICLE_TYPE, STATE.enabled ? "On" : "Off")
+        HotKey(KEY_RETICLE_COLOR, STATE.enabled ? "On" : "Off")
     }
 }
 
@@ -522,9 +643,16 @@ if (ENABLE_RAINMETER) {
 ; #### STOPWATCH BOOTSTRAP #####
 
 if (ENABLE_STOPWATCH) {
-    Stopwatch := StopwatchGUI()
-    Hotkey(KEY_SHOW_STOPWATCH, (arg) => Stopwatch.ToggleGUI())
-    Hotkey(KEY_RUN_STOPWATCH, (arg) => Stopwatch.ToggleRunning())
+    Hotkey(KEY_SHOW_STOPWATCH, (arg) => STOPWATCH.ToggleGUI())
+    Hotkey(KEY_RUN_STOPWATCH, (arg) => STOPWATCH.ToggleRunning())
+}
+
+; #### RETICLE BOOTSTRAP #####
+
+if (ENABLE_RETICLE) {
+    Hotkey(KEY_SHOW_RETICLE, (arg) => RETICLE.ToggleDisplay())
+    Hotkey(KEY_RETICLE_TYPE, (arg) => RETICLE.ToggleCrosshair())
+    Hotkey(KEY_RETICLE_COLOR, (arg) => RETICLE.ToggleColor())
 }
 
 ; ##### HOTKEY BOOTSTRAP #####
