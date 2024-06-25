@@ -82,6 +82,7 @@ INVENTORY := Map(
 - `KEY_SHOW_RETICLE`: Key to show or hide the reticle (defaults to "CTRL + p").
 - `KEY_RETICLE_TYPE`: Key to change the crosshair (defaults to "-").
 - `KEY_RETICLE_COLOR`: Key to change the color of the reticle (defaults to "=").
+- `SHOW_RETICLE_ONLOAD`: Have reticle show on script launch if enabled (defaults to true).
 - `DEFAULT_RETICLE_TYPE_INDEX`: Sets the starting crosshair type so you can always start with the kind you like (defaults to a dot at index 1).
 - `DEFAULT_RETICLE_COLOR_INDEX`: Sets the starting color index so you can always start with the color you like (defaults to green at index 1).
 

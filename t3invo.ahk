@@ -59,6 +59,7 @@ ENABLE_RETICLE := false
 KEY_SHOW_RETICLE := "^p" ; key to show or hide reticle
 KEY_RETICLE_TYPE := "-" ; key to change crosshairs
 KEY_RETICLE_COLOR := "=" ; key to change reticle color
+SHOW_RETICLE_ONLOAD  := true
 DEFAULT_RETICLE_TYPE_INDEX := 1 ; index of crosshair you like (see ReticleGUI constructor)
 DEFAULT_RETICLE_COLOR_INDEX := 1 ; index of color you like (see ReticleGUI constructor)
 
@@ -651,7 +652,10 @@ if (ENABLE_RETICLE) {
     Hotkey(KEY_SHOW_RETICLE, (arg) => RETICLE.ToggleDisplay())
     Hotkey(KEY_RETICLE_TYPE, (arg) => RETICLE.ToggleCrosshair())
     Hotkey(KEY_RETICLE_COLOR, (arg) => RETICLE.ToggleColor())
-    RETICLE.ToggleDisplay()
+    
+    if (SHOW_RETICLE_ONLOAD) {
+        RETICLE.ToggleDisplay()
+    }
 }
 
 ; ##### HOTKEY BOOTSTRAP #####
