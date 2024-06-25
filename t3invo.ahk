@@ -19,11 +19,8 @@ NOTIFY_ENABLED := true
 ; # SHOW TOAST WHEN INVENTORY IS APPLIED VIA HOTKEY?
 NOTIFY_INVENTORY := true 
 
-; # ENABLE Rainmeter HUD?
-ENABLE_RAINMETER := true
-
 ; # ENABLE STOPWATCH & KEY CONFIG
-ENABLE_STOPWATCH := false
+ENABLE_STOPWATCH := true
 KEY_SHOW_STOPWATCH := "^g"
 KEY_RUN_STOPWATCH := "g"
 
@@ -34,6 +31,9 @@ KEY_RETICLE_TYPE := "-"
 KEY_RETICLE_COLOR := "="
 DEFAULT_RETICLE_TYPE_INDEX := 1
 DEFAULT_RETICLE_COLOR_INDEX := 1
+
+; # ENABLE Rainmeter HUD?
+ENABLE_RAINMETER := true
 
 ; # Rainmeter default install location, modify if yours is different
 PATH_RAINMETER := "C:\Progra~1\Rainmeter\Rainmeter.exe"
@@ -76,17 +76,7 @@ INVENTORY := Map(
     "F6", ["juggernaut", "spinfusor", "chain", "shotgun", "disc", "forcefield"],
 )
 
-; # EXPERIMENTAL! weapon swap: switch between two weapons
-ENABLE_WEAPON_SWAP := false
-; 	Note! use key bindings you don't normally press to allow the swap button to be all you need
-KEY_WEAPON_SWAP := "q"
-; 	Note! if you changed loadout without using this script or press one of the weapon keys directly, it 
-;		might throw off STATE and you will have to press the swap button again to get back on track
-KEY_WEAPON_1 := "p"
-KEY_WEAPON_2 := "o"
-
 ; MOUSE_SPEEDS = { [KeyBinding]: Speed 1 - 20 }
-
 ENABLE_MOUSE_SPEEDS := false
 
 MOUSE_SPEEDS := Map(
@@ -96,11 +86,18 @@ MOUSE_SPEEDS := Map(
     "^Down", [10]
 )
 
+; # EXPERIMENTAL! weapon swap: switch between two weapons
+ENABLE_WEAPON_SWAP := false
+; 	Note! use key bindings you don't normally press to allow the swap button to be all you need
+KEY_WEAPON_SWAP := "q"
+; 	Note! if you changed loadout without using this script or press one of the weapon keys directly, it 
+;		might throw off STATE and you will have to press the swap button again to get back on track
+KEY_WEAPON_1 := "p"
+KEY_WEAPON_2 := "o"
+
 ; # ends config editing area!
 
-
 ; ##### DEFINITIONS #####
-
 
 SCREEN_RESOLUTION_MAP := Map(
     ; 1920 x 1080
@@ -261,10 +258,17 @@ class StopwatchGUI {
             return
         }
 
+        screenWidth := SysGet(0)
+        screenHeight := SysGet(1)
+        w := 165
+        h := 69
+        x := screenWidth - w - 16
+        y := screenHeight//2 - h//2
+
         this.gui := Gui()
         this.gui.Add("Text", "x67 y22 w60 h20 vTimeText", "00:00")
         this.gui.OnEvent("Close", (arg) => this.Close())
-        this.gui.Show("h69 w165")
+        this.gui.Show("w" . w . " h" . h . " x" . x . " y" . y)
     }
 
     ToggleRunning() {
