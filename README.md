@@ -17,6 +17,8 @@ This script is designed to manage loadouts for the game "Tribes". It allows you 
 - Rainmeter HUD that provides status of current loadout.
 - Enable or disable the script with a hotkey.
 - Set Windows mouse speeds
+- Stopwatch GUI
+- Custom reticle
 - Toggle between two weapons with he same key (experimental!)
 
 ## Configuration
