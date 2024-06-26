@@ -265,6 +265,8 @@ class StopwatchGUI {
         y := screenHeight//2 - h//2
 
         this.gui := Gui()
+        this.gui.Opt("+LastFound")
+        this.gui.Opt("+AlwaysOnTop")
         this.gui.Add("Text", "x67 y22 w60 h20 vTimeText", "00:00")
         this.gui.OnEvent("Close", (arg) => this.Close())
         this.gui.Show("w" . w . " h" . h . " x" . x . " y" . y)
