@@ -302,12 +302,6 @@ class StopwatchGUI {
         }
 
         this.seconds += 1
-        if (this.seconds > 59) {
-            this.minutes += 1
-            this.seconds := 0
-        }
-
-        
         this.gui["TimeText"].Value := this.FormatSeconds(this.seconds)
     }
 }
