@@ -508,7 +508,7 @@ toggleEnabled(arg) {
 
     STATE.enabled := !STATE.enabled
 
-    ; Hotkey(KEY_TOAST_CLASS_INFO, STATE.enabled ? "On" : "Off")
+    Hotkey(KEY_TOAST_CLASS_INFO, STATE.enabled ? "On" : "Off")
 
     for key in INVENTORY {
         Hotkey(key, STATE.enabled ? "On" : "Off")
