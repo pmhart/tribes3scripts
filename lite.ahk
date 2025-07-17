@@ -1,25 +1,34 @@
 #Requires AutoHotkey v2.0
 
-ENABLED := true
-KEY_ENABLED := "^k"
-KEY_CHANGE_LOADOUT := "i"
-KEY_CHAT := "v"
+ENABLED := true ; dont set this, toggled by code!
 
-ENABLE_STOPWATCH := true
-KEY_SHOW_STOPWATCH := "^g"
-KEY_RUN_STOPWATCH := "g"
+; CONFIGURE
+; 1: Set key bindings (lines 16 - 25)
+; 2: Set loudouts starting on line 30
+; 3: Set screen size line 136
+;       LAYOUT := SCREEN_RESOLUTION_MAP[1440]
+;       LAYOUT := SCREEN_RESOLUTION_MAP[1080]
 
-ENABLE_RETICLE := true
-KEY_SHOW_RETICLE := "^p"
-KEY_RETICLE_TYPE := "-"
-KEY_RETICLE_COLOR := "="
-KEY_TOAST_CLASS_INFO := "u"
-SHOW_RETICLE_ONLOAD  := true
+ENABLE_STOPWATCH := true ; feature flag to enable stopwatch
+ENABLE_RETICLE := true ; feature flag to enable reticle
+SHOW_RETICLE_ONLOAD  := true ; feature flag to show reticle on load
+
+KEY_ENABLED := "^k" ; key binding to turn on and off this script
+KEY_CHANGE_LOADOUT := "k" ; set to your change loadout key if different
+
+KEY_SHOW_STOPWATCH := "^g" ; keybinding to toggle showing the stopwatch
+KEY_RUN_STOPWATCH := "g" ; keybinding to start / stop the stopwatch when open
+
+KEY_SHOW_RETICLE := "^p" ; keybinding to show the reticle
+KEY_RETICLE_TYPE := "-" ; keybinding to change the reticle shape
+KEY_RETICLE_COLOR := "=" ; keybinding to change the reticle color
+KEY_TOAST_CLASS_INFO := "u" ; keybinding for a status toast
+
 DEFAULT_RETICLE_TYPE_INDEX := 1
 DEFAULT_RETICLE_COLOR_INDEX := 1
 
 INVENTORY := Map(
-    ; # CAPPER
+    ; # CAPPER (hit key 2 to toggle these capper loadouts)
     "2", [
         ["pathfinder", "spinfusor", "chain", "sparrow", "explosive", "blink"],
         ["pathfinder", "spinfusor", "chain", "sparrow", "explosive", "thrust"],
